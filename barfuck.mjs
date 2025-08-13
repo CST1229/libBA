@@ -38,11 +38,15 @@ const modeArgs = Object.keys(LANGUAGE_MODES);
 
 if (args.includes("--help") || args.includes("-?") || (args.length == 0 && !PROGRAM)) {
 	console.log(
-`Compiles a barfuck program (seperated by "--").
+`Compiles a brainfuck/boolfuck/barfuck program (seperated by "--").
 
-node barfuck.mjs -- ">>+++<>-+-;>"
+node barfuck.mjs --barfuck -- ">>+++<>-+-;>"
 
   --file [path]            Use a path to a file as the program code.
+  --name                   The name of the generated level. Default: "${DEFAULT_NAME}".
+  --out                    The path to the generated level .json file.
+                           If not present, saves it into your Barfy's Adventure levels folder.
+  
   --memory [bits]          The size of the memory, in bits.
                            Set to 0 to disable memory (will break brainfuck mode).
                            Adding memory is very expensive (2 engine groups and 5 entities per bit).
@@ -60,9 +64,7 @@ node barfuck.mjs -- ">>+++<>-+-;>"
                            instead of having it cover all output.
                            This fixes lag spikes during outputting in large output sizes
                            (due to less tiles having to be moved), but might look worse.
-  --name                   The name of the generated level. Default: "${DEFAULT_NAME}".
-  --output                 The path to the generated level .json file.
-                           If not present, saves it into your Barfy's Adventure levels folder.
+  
   --verbose                Outputs verbosely.
   --debug                  Outputs WAY too verbosely (as in, "prints a line for every tile placed" verbosely).
 
@@ -70,11 +72,19 @@ Language modes:
 
   brainfuck (${modeArgs.filter(k => LANGUAGE_MODES[k] === "brainfuck").join(", ")})
     It's brainfuck. It's the default. Valid characters: +-<>,.[]
+    Implementation details:
+      - 8-bit wrapping cells (I think).
+      - Memory is bounded to the limit set by --memory (but bits, so things might be different).
+      - Going to the left of memory address 0 is undefined behavior (I think it just doesn't advance?).
+      - Going to the right of the maximum memory address is an error (it will also kill the player).
+      - Inputting: EOF is infinite zeroes.
+      - Outputting: No character set (you just see the bits directly). Though the number of bits
+        you can output is limited by --output (anything after this gets discarded).
   boolfuck (${modeArgs.filter(k => LANGUAGE_MODES[k] === "boolfuck").join(", ")})
     Brainfuck but it operates on bits, and outputting is on ";" instead of ".".
     Also "-" was removed.
     https://samuelhughes.com/boof/
-  barfuck (${modeArgs.filter(k => LANGUAGE_MODES[k] === "boolfuck").join(", ")})
+  barfuck (${modeArgs.filter(k => LANGUAGE_MODES[k] === "barfuck").join(", ")})
     The internal language of the WAU Express Machine:tm:. bf and boolf compile down to this.
     Differences from boolfuck:
     - The pointer has a direction. ">" moves it forward and "<" reverse its direction.
@@ -138,7 +148,7 @@ const LOADED_LEVELS_PATH = path.join(thisDir, "levels");
 const LOADED_STRUCTURES_PATH = path.join(thisDir, "structures");
 
 let LEVEL_NAME = getArg("--name", DEFAULT_NAME);
-let OUTPUT_PATH = getArg("--output", path.join(LEVELS_PATH, LEVEL_NAME + ".json"));
+let OUTPUT_PATH = getArg("--out", path.join(LEVELS_PATH, LEVEL_NAME + ".json"));
 
 logging.TOO_MUCH_LOGGING = args.includes("--debug");
 logging.LOGGING = logging.TOO_MUCH_LOGGING || args.includes("--verbose");
