@@ -1,4 +1,3 @@
-// @ts-check
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as process from "node:process";
@@ -6,9 +5,51 @@ import * as url from "node:url";
 
 import {
 	Level, Tile, LEVELS_PATH,
-	colors, rotations, tiles,
+	colors, rotations,
 	indentedLog, logging
-} from "./libBA.mjs";
+} from "../lib/libBA.mjs";
+
+/**
+ * Specific tile ids that i might need. Not an exhaustive list, for that use tile IDs or the BA_TILE_NAMES array.
+ * @readonly
+ * @enum {number}
+ */
+const tiles = {
+	ground: 0,
+	semisolid: 1,
+	entrance: 2,
+	dryground: 20,
+	monoground: 21,
+	offblock: 22,
+	onblock: 23,
+	button: 26,
+	ice: 34,
+	whoareyou: 36,
+	antislide: 37,
+	spring: 40,
+	bubblegumground: 42,
+	oneusebutton: 54,
+	redbricks: 55,
+	conveyor: 67,
+	purpleground: 76,
+	togglesemisolid: 82,
+	number: 84,
+	door: 89,
+	vanishblock: 104,
+	bigvanishblock: 106,
+	junglegrass: 123,
+	wood: 125,
+	mushroomground: 135,
+	engine: 142,
+	slime: 143,
+	guide: 144,
+	stopguide: 145,
+	reverseguide: 146,
+	touchengine: 147,
+	touchguide: 148,
+	snowydirt: 156,
+	sand: 157,
+};
 
 let PROGRAM = "";
 

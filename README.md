@@ -1,17 +1,17 @@
-# barfuck
+# libBA and assorted scripts
 
-A computer (-ish) + external brainfuck/boolfuck/custom boolfuck derivative compiler that compiles into a [Barfy's Adventure](https://barfy.itch.io/adventure) level.
+A node.js library for working with [Barfy's Adventure](https://barfy.itch.io/adventure) level files.
 
-## Usage
+Also, some scripts I made that use it.
 
-You need node.js. Download this repo, open it in a terminal and:
-```
-node barfuck.mjs
-```
-(this will show a list of all arguments. simplest usecase: just pass the code in after `--`: `node barfuck.mjs -- +.`)
+## Files
 
-By default it will save the level to `%AppData%/Godot/app_userdata/Barfy's Adventure/levels/wau express bf output.json` (so a level called `wau express bf output` in your levels list). If you're not on Windows or you want to save the level JSON somewhere (or you don't have the game installed...), you can use the `--out` argument to put it elsewhere.
+- `lib/libBA.mjs`: The library itself.
+- `lib/tileinfo.json`: `res://assets/tileinfo.json` ripped right from BA's game.pck. Used by libBA.
+- `lib/json5.mjs`: A copy of `https://unpkg.com/json5@2.2.3/dist/index.min.mjs`, because tileinfo.json uses trailing commas.
 
-## Caveats
-
-The runtime is slow as hell. Also very laggy with high memory sizes or long programs.
+- `everyTileVariantRotationLayer.mjs`: Generated the Every Tile level on the BA test zone (`testzone.txt` in appdata).
+- `flipLevel.mjs`: Flips a level horizontally and vertically. Used for What Boulder Chamber 1.
+- `makePaint.mjs`: Generates the pixel grid used in Paint. (Some alterations were made after generation.)
+- `barfuck/*`: Really old (August 2025) brainfuck compiler for BA.
+- `template_levels/*`: Level files used by scripts. (except `paint.json`, that's the finished Paint level)
