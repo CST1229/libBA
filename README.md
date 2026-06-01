@@ -24,6 +24,7 @@ Also, some scripts I made that use it.
 - Create empty levels
 - Parses `tileinfo.json` for getting tiles and variants by name
 - JS object representation of tiles and layers. A rather nice object-oriented way of working with them
+- "Effective tiles"; an abstraction primarily for making working with diagonal rotations and inconsistent rotation IDs easier, but also optionally abstracts away tile groups (e.g classic ground is one ID with different variants when using effective tiles, like in the editor) as well
 - Structure support (Level.placeStructure, Level.makeStructure)
 - Fully typed! (via JSDoc)
 
