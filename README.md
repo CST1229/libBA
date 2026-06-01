@@ -7,8 +7,10 @@ Also, some scripts I made that use it.
 ## Files
 
 - `lib/libBA.mjs`: The library itself.
-- `lib/tileinfo.json`: `res://assets/tileinfo.json` ripped right from BA's game.pck. Used by libBA.
-- `lib/json5.mjs`: A copy of `https://unpkg.com/json5@2.2.3/dist/index.min.mjs`, because tileinfo.json uses trailing commas.
+- `lib/*.mjs`: Other files of the library.
+- `lib/external/tileinfo.json`: `res://assets/tileinfo.json` ripped right from BA's game.pck. Used by libBA.
+- `lib/external/global.gd`: `res://global.gd` ripped right from BA's game.pck. Used by libBA.
+- `lib/external/json5.mjs`: A copy of `https://unpkg.com/json5@2.2.3/dist/index.min.mjs`, because tileinfo.json uses trailing commas.
 
 - `everyTileVariantRotationLayer.mjs`: Generated the Every Tile level on the BA test zone (put `testzone.txt` in BA appdata).
 - `flipLevel.mjs`: Flips a level horizontally and vertically. Used for What Boulder Chamber 1.

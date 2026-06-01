@@ -1,3 +1,4 @@
+// @ts-check
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as process from "node:process";
@@ -5,7 +6,7 @@ import * as url from "node:url";
 
 import {
 	Level, Tile, LEVELS_PATH,
-	colors, rotations,
+	Colors, Rotations,
 	indentedLog, logging
 } from "../lib/libBA.mjs";
 
@@ -147,6 +148,9 @@ if (!PROGRAM) {
 	throw new Error("No program specified. Use --help or pass no arguments for help");
 }
 
+/**
+ * @param {string} name
+ */
 function getArg(name, defaultValue = "") {
 	const nameIndex = args.lastIndexOf(name);
 	if (nameIndex == -1) {
@@ -159,6 +163,9 @@ function getArg(name, defaultValue = "") {
 	args[nameIndex + 1] = "";
 	return arg;
 }
+/**
+ * @param {any} name
+ */
 function getIntArg(name, defaultValue = 0) {
 	const rawArg = getArg(name, String(defaultValue));
 	const arg = Math.round(+rawArg);
@@ -167,6 +174,9 @@ function getIntArg(name, defaultValue = 0) {
 	}
 	return arg;
 }
+/**
+ * @param {string} name
+ */
 function getUIntArg(name, defaultValue = 0) {
 	const rawArg = getArg(name, String(defaultValue));
 	const arg = Math.round(+rawArg);
@@ -204,17 +214,17 @@ for (const arg of args) {
 /**
  * all button actions.
  * @readonly
- * @enum {colors}
+ * @enum {Colors}
  */
 const actions = {
-	move: colors.red,
-	turn: colors.yellow,
-	action: colors.green,
-	switch_rw: colors.teal,
-	register: colors.blue,
-	input: colors.pink,
-	output: colors.purple,
-	unused: colors.white,
+	move: Colors.red,
+	turn: Colors.yellow,
+	action: Colors.green,
+	switch_rw: Colors.teal,
+	register: Colors.blue,
+	input: Colors.pink,
+	output: Colors.purple,
+	unused: Colors.white,
 };
 const FOREST_BG = 24;
 
@@ -246,6 +256,10 @@ const BOOLFUCK_TO_BARFUCK = {
 };
 
 // transpile brainfuck and boolfuck to barfuck
+/**
+ * @param {string} string
+ * @param {{ [x: string]: any; ";"?: string; "+"?: string; "-"?: string; "<"?: string; ">"?: string; ","?: string; "."?: string; "["?: string; "]"?: string; "}"?: string; }} replacements
+ */
 function performReplacements(string, replacements) {
 	// https://stackoverflow.com/a/15604206
     const re = new RegExp(
@@ -254,7 +268,7 @@ function performReplacements(string, replacements) {
 		.join("|"), "g"
 	);
 
-    return string.replace(re, function(matched){
+    return string.replace(re, function(/** @type {string | number} */ matched){
         return replacements[matched];
     });
 }
@@ -268,6 +282,9 @@ if (languageMode == "boolfuck") {
 }
 
 // optimizes barfuck code
+/**
+ * @param {string} string
+ */
 function optimizeCode(string) {
 	// < only affects >, so it's safe to remove it if it's run twice without > inbetween
 	// (except for control flow since that's unpredictable and i don't feel like it... it could probably still be optimized though)
@@ -286,9 +303,15 @@ const unoptimized = PROGRAM;
 PROGRAM = optimizeCode(PROGRAM);
 
 // structures!!
+/**
+ * @param {string | null | undefined} name
+ */
 function loadStructure(name) {
 	return Level.loadFile(path.join(LOADED_STRUCTURES_PATH, name + ".strc"), name);
 }
+/**
+ * @param {string} name
+ */
 function loadLevel(name) {
 	return Level.loadFile(path.join(LOADED_LEVELS_PATH, name + ".json"));
 }
@@ -385,6 +408,7 @@ function compileToLevel(level) {
 
 	/**
 	 * Finds and validates [] brackets.
+	 * @param {string} string
 	 */
 	function findBrackets(string) {
 		const brackets = [];
@@ -429,11 +453,14 @@ function compileToLevel(level) {
 		return brackets;
 	}
 	const brackets = findBrackets(PROGRAM);
+	/**
+	 * @type {Record<number, *>}
+	 */
 	const activeBrackets = {};
 	function addActiveBrackets() {
 		for (const bracket of Object.values(activeBrackets)) {
-			tilemap.addTile(tiles.conveyor, cx, bracket.y, 0, rotations.conveyor_right); // right
-			tilemap.addTile(tiles.conveyor, cx, bracket.y + 2, 0, rotations.conveyor_left); // left
+			tilemap.addTile(tiles.conveyor, cx, bracket.y, 0, Rotations.conveyor_right); // right
+			tilemap.addTile(tiles.conveyor, cx, bracket.y + 2, 0, Rotations.conveyor_left); // left
 		}
 	}
 	function addGround() {
@@ -445,16 +472,16 @@ function compileToLevel(level) {
 		switch (char) {
 			case "+":
 				if (MEMORY_BITS > 0) {
-					tilemap.addTile(tiles.button, cx, WAI_Y, actions.action, rotations.up);
+					tilemap.addTile(tiles.button, cx, WAI_Y, actions.action, Rotations.up);
 				} else {
-					tilemap.addTile(tiles.button, cx, WAI_Y, actions.register, rotations.up);
+					tilemap.addTile(tiles.button, cx, WAI_Y, actions.register, Rotations.up);
 				}
 				addGround();
 				cx++;
 				break;
 			case "-":
 				if (MEMORY_BITS > 0) {
-					tilemap.addTile(tiles.button, cx, WAI_Y, actions.switch_rw, rotations.up);
+					tilemap.addTile(tiles.button, cx, WAI_Y, actions.switch_rw, Rotations.up);
 					addGround();
 					cx++;
 				}
@@ -463,7 +490,7 @@ function compileToLevel(level) {
 				if (MEMORY_BITS > 0) {
 					addGround();
 					cx++;
-					tilemap.addTile(tiles.button, cx, WAI_Y, actions.turn, rotations.up);
+					tilemap.addTile(tiles.button, cx, WAI_Y, actions.turn, Rotations.up);
 					addGround();
 					cx++;
 					addGround();
@@ -472,7 +499,7 @@ function compileToLevel(level) {
 				break;
 			case ">":
 				if (MEMORY_BITS > 0) {
-					tilemap.addTile(tiles.button, cx, WAI_Y, actions.move, rotations.up);
+					tilemap.addTile(tiles.button, cx, WAI_Y, actions.move, Rotations.up);
 					addGround();
 					cx++;
 					addGround();
@@ -481,14 +508,14 @@ function compileToLevel(level) {
 				break;
 			case ";":
 				if (OUTPUT_BITS > 0) {
-					tilemap.addTile(tiles.button, cx, WAI_Y, actions.output, rotations.up);
+					tilemap.addTile(tiles.button, cx, WAI_Y, actions.output, Rotations.up);
 					addGround();
 					cx++;
 				}
 				break;
 			case ",":
 				if (INPUT_BITS > 0) {
-					tilemap.addTile(tiles.button, cx, WAI_Y, actions.input, rotations.up);
+					tilemap.addTile(tiles.button, cx, WAI_Y, actions.input, Rotations.up);
 					addGround();
 					cx++;
 				}
@@ -499,15 +526,15 @@ function compileToLevel(level) {
 					throw new Error("no [ bracket matched at " + pos);
 				}
 				const bottom_y = bracket.y + 2;
-				tilemap.addTile(tiles.semisolid, cx, WAI_Y, actions.register, rotations.right);
+				tilemap.addTile(tiles.semisolid, cx, WAI_Y, actions.register, Rotations.right);
 				for (let i = 0; i < bottom_y; i++) {
 					tilemap.addTile(tiles.snowydirt, cx, cy + i);
 				}
 				addActiveBrackets();
 				cx++;
 
-				tilemap.addTile(tiles.semisolid, cx, cy, actions.register, rotations.up);
-				tilemap.addTile(tiles.semisolid, cx, WAI_Y - 1, actions.register, rotations.down);
+				tilemap.addTile(tiles.semisolid, cx, cy, actions.register, Rotations.up);
+				tilemap.addTile(tiles.semisolid, cx, WAI_Y - 1, actions.register, Rotations.down);
 				for (let i = bottom_y; i > cy; i -= 4) {
 					tilemap.addTile(tiles.spring, cx, i);
 				}
@@ -518,21 +545,21 @@ function compileToLevel(level) {
 				for (let i = cy; i <= bottom_y2; i++) {
 					tilemap.addTile(tiles.snowydirt, cx, i);
 				}
-				tilemap.addTile(tiles.snowydirt, cx, bottom_y, 0, rotations.conveyor_left);
+				tilemap.addTile(tiles.snowydirt, cx, bottom_y, 0, Rotations.conveyor_left);
 				addActiveBrackets();
 				cx++;
 
-				tilemap.addTile(tiles.togglesemisolid, cx, cy, actions.register, rotations.down);
-				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, rotations.conveyor_left);
-				tilemap.addTile(tiles.conveyor, cx, bottom_y2, 0, rotations.conveyor_right);
+				tilemap.addTile(tiles.togglesemisolid, cx, cy, actions.register, Rotations.down);
+				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, Rotations.conveyor_left);
+				tilemap.addTile(tiles.conveyor, cx, bottom_y2, 0, Rotations.conveyor_right);
 				addActiveBrackets();
 				cx++;
 
 				tilemap.addTile(tiles.snowydirt, cx, cy);
-				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, rotations.conveyor_left);
-				tilemap.addTile(tiles.conveyor, cx, bottom_y2, 0, rotations.conveyor_right);
+				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, Rotations.conveyor_left);
+				tilemap.addTile(tiles.conveyor, cx, bottom_y2, 0, Rotations.conveyor_right);
 				for (let i = cy + 1; i < (bottom_y2 - 1); i++) {
-					tilemap.addTile(tiles.semisolid, cx, i, actions.register, rotations.left);
+					tilemap.addTile(tiles.semisolid, cx, i, actions.register, Rotations.left);
 				}
 				// allow writing over this column, so no cx++
 				activeBrackets[bracket.pos] = bracket;
@@ -549,38 +576,38 @@ function compileToLevel(level) {
 				const bottom_y2 = bracket.y;
 				const bottom_y = bracket.y + 2;
 
-				tilemap.addTile(tiles.semisolid, cx, WAI_Y, actions.register, rotations.right);
+				tilemap.addTile(tiles.semisolid, cx, WAI_Y, actions.register, Rotations.right);
 				tilemap.addTile(tiles.snowydirt, cx, cy);
-				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, rotations.conveyor_left);
-				tilemap.addTile(tiles.snowydirt, cx, bottom_y2, 0, rotations.conveyor_right);
+				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, Rotations.conveyor_left);
+				tilemap.addTile(tiles.snowydirt, cx, bottom_y2, 0, Rotations.conveyor_right);
 				for (let i = 1; i < (bottom_y2 - 1); i++) {
-					tilemap.addTile(tiles.semisolid, cx, cy + i, actions.register, rotations.right);
+					tilemap.addTile(tiles.semisolid, cx, cy + i, actions.register, Rotations.right);
 				}
 				addActiveBrackets();
 				cx++;
 
-				tilemap.addTile(tiles.semisolid, cx, cy , actions.register, rotations.up);
-				tilemap.addTile(tiles.semisolid, cx, cy - 2, actions.register, rotations.down);
+				tilemap.addTile(tiles.semisolid, cx, cy , actions.register, Rotations.up);
+				tilemap.addTile(tiles.semisolid, cx, cy - 2, actions.register, Rotations.down);
 				for (let i = bottom_y2; i > cy; i -= 4) {
 					tilemap.addTile(tiles.spring, cx, i);
 				}
-				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, rotations.conveyor_left);
+				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, Rotations.conveyor_left);
 				addActiveBrackets();
 				cx++;
 
 				for (let i = cy; i <= bottom_y2; i++) {
 					tilemap.addTile(tiles.snowydirt, cx, i);
 				}
-				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, rotations.conveyor_left);
+				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, Rotations.conveyor_left);
 				addActiveBrackets();
 				cx++;
 
 				if (char == "]") {
-					tilemap.addTile(tiles.togglesemisolid, cx, cy, actions.register, rotations.up);
+					tilemap.addTile(tiles.togglesemisolid, cx, cy, actions.register, Rotations.up);
 				} else {
-					tilemap.addTile(tiles.semisolid, cx, cy, actions.register, rotations.up);
+					tilemap.addTile(tiles.semisolid, cx, cy, actions.register, Rotations.up);
 				}
-				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, rotations.conveyor_left);
+				tilemap.addTile(tiles.conveyor, cx, bottom_y, 0, Rotations.conveyor_left);
 				addActiveBrackets();
 				cx++;
 				

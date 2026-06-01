@@ -1,0 +1,234 @@
+0: Ground
+1: Semisolid Platform
+2: Entrance
+3: WAI Portrait
+4: Spike
+5: Grass
+6: Arrow
+7: Healium Can
+8: Wall
+9: Dry Wall
+10: Torch
+11: Dashgate
+12: What am I
+13: Barfy Token
+14: Barfbot Token (Legacy)
+15: Gravity Bubble (Legacy)
+16: Bubble
+17: Gear
+18: Camera X Follow
+19: Camera X Lock
+20: Dry Ground
+21: Monoground
+22: Off Block
+23: On Block
+24: Toggle Token
+25: Temporary Toggle Block
+26: Pressure Plate
+27: Fence
+28: Pillar
+29: Monowall
+30: Tutorial Board
+31: Barfy Gate
+32: Barfbot Gate (Legacy)
+33: Small Spikes
+34: Ice
+35: Sawblade
+36: Who are You
+37: Anti-Slide
+38: Cubey Token (Legacy)
+39: Cubey Gate (Legacy)
+40: Spring
+41: Dodgeball
+42: Bubblegum Ground
+43: X
+44: Sign
+45: Chain
+46: Off Spike
+47: On Spike
+48: Clay
+49: Temporary Clay
+50: Gear Fragment
+51: Beam Block
+52: Wooey
+53: Wooey Turn Point
+54: One-Use Pressure Plate
+55: Bricks
+56: Balloon
+57: 1x Camera Zoom
+58: Respawning Dodgeball (Legacy)
+59: Coral Crop
+60: Teal Dirt
+61: Opticone
+62: Web
+63: Square Barfy Token
+64: WAU Portrait
+65: Opticone Portrait
+66: Wooey Portrait
+67: Conveyor
+68: Chill Block
+69: WAI Thumbnail
+70: Dashpipe
+71: Curved Dashpipe
+72: Temporary Checkpoint
+73: Teletoken
+74: invisible semisolid used for dashpipes lol
+75: Dot
+76: Amethyst Ground
+77: Cactus
+78: Fire
+79: Alarm
+80: Practice Point
+81: Brick Wall
+82: Toggle Semisolid
+83: Toggle Arrow
+84: 0
+85: Toggle Beam Block
+86: Thumbnail Charcter
+87: Camera X Wrap
+88: Spike Graze Prevention
+89: Door
+90: Bowling Ball
+91: S Dashpipe
+92: Z Dashpipe
+93: Window
+94: Spike Block
+95: Reset Ray
+96: Start Timer Ray
+97: +5 Seconds Clock
+98: 
+99: Large Bubble
+100: Barfy Ray
+101: Camera Y Follow
+102: Camera Y Lock
+103: Zeteor
+104: Vanish Block
+105: Vanished Block
+106: Large Vanish Block
+107: Large Vanished Block
+108: Glider
+109: Zeteor Portrait
+110: WAI Statue
+111: Barfy Ring
+112: What Boulder
+113: What Boulder Portrait
+114: Boulder Thumbnail
+115: Jumpspikes
+116: Note Block: Piano
+117: Rock
+118: Bush
+119: Red Tulip
+120: Key
+121: Target
+122: Spreading Liquify
+123: Jungle Grass
+124: Dirt Wall
+125: Wood
+126: Wooden Wall
+127: Tree
+128: Vine
+129: Off Spike Block
+130: On Spike Block
+131: Camera Y Wrap
+132: Camera Gravity Wrap
+133: Dashcoin
+134: Bounshroom
+135: Mushroom Ground
+136: Mushroom
+137: Camera X Connect
+138: Camera Y Connect
+139: Temporary Camera Connect
+140: Waterfall
+141: Bounshroom Portrait
+142: Slow Auto Engine
+143: Slime
+144: Slow Auto Guide
+145: Stop Guide
+146: Slow Track Guide
+147: Slow Touch Engine
+148: Slow Touch Guide
+149: Stone
+150: Arrow
+151: Reset Guide
+152: What Chamber 1
+153: Barrier
+154: World 1
+155: World 1
+156: Snowy Dirt
+157: Sand
+158: Pine Tree
+159: Palm Tree
+160: Accessory Gate
+161: Snowman
+162: Taped Gear Fragment
+163: Bubble Arrow
+164: Bubble Arrow
+165: Cracked Clay
+166: 
+167: Small Arrow
+168: Small Arrow
+169: Chain Off Block
+170: Chain On Block
+171: Energy Chain Block
+172: temp
+173: temp
+174: Off Small Spike
+175: On Small Spike
+176: Energy Chain Block Invisible
+177: Energy Chain Block Invisible
+178: Pipe
+179: Sandcastle
+180: Lantern
+181: Table
+182: Chair
+183: Apple Pile
+184: Lamp
+185: Candle
+186: Disable Weather
+187: Barrel
+188: Caution Tape
+189: Traffic Cone
+190: Trash Can
+191: grass left
+192: grass right
+193: Slow Hit Engine
+194: Slow Hit Guide
+195: Artboard
+196: Pumpkin
+197: Jack o' Lantern
+198: Crystal
+199: Small Crystal
+200: 
+201: Slow Auto Engine
+202: Slow Auto Guide
+203: Crate
+204: No Camera Offset
+205: Crate Target
+206: Slow Touch Engine
+207: Slow Touch Guide
+208: Slow Track Guide
+209: Slow Hit Engine
+210: Slow Hit Guide
+211: Curtain
+212: Copper Ground
+213: Spike Semisolid
+214: Cloud Ground
+215: Cloud Semisolid
+216: Mosaic Ground
+217: Cloud Wall
+218: Toggle Arrow
+219: Ghostly Ground
+220: Red Square
+221: Ghost Ground Thumbnail
+222: Glass
+223: Practice Block
+224: Partial Slime
+225: Toggle Guide
+226: Cancel Midair Jump
+227: Clock
+228: Cannon
+229: Link Engine
+230: Tripwire
+231: Right Input Block
+232: Toggle Counter
+233: Camera Controller
